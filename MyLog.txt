@@ -1,6 +1,6 @@
-nov 13, 2021 3:46:22 PM com.molinari.utility.log.LoggerOggetto creaLog
+nov 13, 2021 11:31:22 PM com.molinari.utility.log.LoggerOggetto creaLog
 INFORMAZIONI: Start programma!
-nov 13, 2021 3:46:22 PM com.molinari.cercalezione.Controllore verificaPresenzaDb
+nov 13, 2021 11:31:22 PM com.molinari.cercalezione.Controllore verificaPresenzaDb
 GRAVE: Il database non c'è ancora, è da creare!
 java.sql.SQLException: [SQLITE_ERROR] SQL error or missing database (no such table: Lezione)
 	at org.sqlite.DB.newSQLException(DB.java:383)
@@ -31,7 +31,7 @@ java.sql.SQLException: [SQLITE_ERROR] SQL error or missing database (no such tab
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-nov 13, 2021 3:46:22 PM com.molinari.cercalezione.Controllore verificaPresenzaDb
+nov 13, 2021 11:31:22 PM com.molinari.cercalezione.Controllore verificaPresenzaDb
 GRAVE: Error on Db creation: table "utenti" already exists
 java.sql.SQLException: table "utenti" already exists
 	at org.sqlite.NativeDB.throwex(NativeDB.java:210)
@@ -59,5 +59,5 @@ java.sql.SQLException: table "utenti" already exists
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-nov 13, 2021 3:46:22 PM com.molinari.cercalezione.Controllore verificaPresenzaDb
+nov 13, 2021 11:31:22 PM com.molinari.cercalezione.Controllore verificaPresenzaDb
 GRAVE: [SQLITE_ERROR] SQL error or missing database (no such table: Lezione)

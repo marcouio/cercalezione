@@ -17,7 +17,7 @@ import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.servicesloader.LoaderLevel;
 
-public class Controllore extends StarterBase{
+public class Controllore extends StarterBase {
 
 	private static final String GUEST = "guest";
 	private FrameBase view;
