@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.molinari.cercalezione.view.FrameCercaLezione;
 import com.molinari.utility.commands.AbstractCommand;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.controller.StarterBase;
@@ -19,13 +21,20 @@ import com.molinari.utility.servicesloader.LoaderLevel;
 
 public class Controllore extends StarterBase {
 
-	private static final String GUEST = "guest";
 	private FrameBase view;
-	private GeneralFrame genPan;
+	private FrameCercaLezione genPan;
 	private String lookUsato;
+	private static Controllore singleton;
 
 	public Controllore() {
 		//do nothing
+	}
+	
+	public static Controllore getSingleton() {
+		if (singleton == null) {
+			singleton = new Controllore();
+		}
+		return singleton;
 	}
 
 	private static void verificaPresenzaDb() {
@@ -43,7 +52,7 @@ public class Controllore extends StarterBase {
 			getLog().log(Level.SEVERE, "Il database non c'è ancora, è da creare!", e);
 			try {
 				Database.getSingleton().generaDB();
-			} catch (final SQLException e1) {
+			} catch (final SQLException | IOException e1) {
 				getLog().log(Level.SEVERE, "Error on Db creation: " + e1.getMessage(), e1);
 				File file = new File(Database.getDburl());
 				System.out.println(file.getAbsolutePath());
@@ -78,7 +87,7 @@ public class Controllore extends StarterBase {
 		
 		frame.setBounds(10, 20, (int)screenSize.getWidth(), (int)screenSize.getHeight());
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-		genPan = new GeneralFrame(frame);
+		genPan = new FrameCercaLezione(frame);
 		view = frame;
 		view.setVisible(true);
 		view.setTitle(I18NManager.getSingleton().getMessaggio("title"));
@@ -91,11 +100,11 @@ public class Controllore extends StarterBase {
 		return view;
 	}
 
-	public GeneralFrame getGeneralFrameInner(){
+	public FrameCercaLezione getGeneralFrameInner(){
 		return this.genPan;
 	}
 	
-	public static GeneralFrame getGeneralFrame(){
+	public static FrameCercaLezione getGeneralFrame(){
 		Controllore starter = (Controllore) ControlloreBase.getSingleton().getStarter();
 		return starter.getGeneralFrameInner();
 	}
@@ -105,7 +114,7 @@ public class Controllore extends StarterBase {
 	}
 
 	public void setConnectionClassName() {
-		getControllore().setConnectionClassName(ConnectionPoolGGS.class.getName());
+		ControlloreBase.getSingleton().setConnectionClassName(ConnectionPoolCL.class.getName());
 	}
 
 	public String getLookUsato() {

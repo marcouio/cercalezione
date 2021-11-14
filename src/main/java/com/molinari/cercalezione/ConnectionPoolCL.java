@@ -2,7 +2,7 @@ package com.molinari.cercalezione;
 
 import com.molinari.utility.database.ConnectionPool;
 
-public class ConnectionPoolGGS extends ConnectionPool {
+public class ConnectionPoolCL extends ConnectionPool {
 
 	@Override
 	protected String getPassword() {

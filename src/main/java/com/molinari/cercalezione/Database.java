@@ -1,6 +1,9 @@
 package com.molinari.cercalezione;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -17,14 +20,7 @@ import com.molinari.utility.graphic.component.alert.Alert;
 
 public class Database {
 
-	private static final String ID_UTENTE_INTEGER_NOT_NULL = " \"idUtente\"	INTEGER NOT NULL, ";
-	private static final String NOME_TEXT_NOT_NULL = " \"nome\"	TEXT NOT NULL, ";
-	private static final String FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE = " FOREIGN KEY(\"idUtente\") REFERENCES \"utenti\"(\"idUtente\") ";
-	private static final String WHERE = " where ";
 	private static final String ROW_S = " row/s";
-	private static final String AND = " AND ";
-	private static final String FROM = " FROM ";
-	private static final String YYYY_MM_DD = "yyyy/MM/dd";
 	private static Database singleton;
 	public static final String DB_URL_WORKSPACE = "../cercalezioni.db";
 	public static final String DB_URL_JAR = "./cercalezioni.db";
@@ -42,90 +38,15 @@ public class Database {
 		return singleton;
 	}
 
-	public void generaDB() throws SQLException {
+	public void generaDB() throws SQLException, IOException {
 		new File(Database.dburl);
 
-		String sql = "CREATE TABLE \"utenti\" (\"idUtente\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"cognome\" TEXT NOT NULL , \"username\" TEXT NOT NULL  UNIQUE , \"password\" TEXT NOT NULL );";
-		final ConnectionPool cp = ConnectionPool.getSingleton();
-		executeUpdate(sql, cp);
-		sql = queryCreateGruppo();
-		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"lookAndFeel\" (\"idLook\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , \"nome\" TEXT NOT NULL , \"valore\" TEXT NOT NULL , \"usato\" INTEGER NOT NULL );";
-		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"risparmio\" (\"idRisparmio\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"PerSulTotale\" DOUBLE NOT NULL , \"nomeOggetto\" TEXT, \"costoOggetto\" DOUBLE);";
-		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"cat_spese\" (\"idCategoria\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"descrizione\"  TEXT NOT NULL,\"importanza\"  TEXT NOT NULL,\"nome\"  TEXT NOT NULL,\"idGruppo\" INTEGER NOT NULL,CONSTRAINT \"keygruppo\" FOREIGN KEY (\"idGruppo\") REFERENCES \"gruppi\" (\"idGruppo\"));";
-		executeUpdate(sql, cp);
-		sql = "CREATE TABLE \"budget\" (\"idBudget\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"idCategorie\"  INTEGER NOT NULL UNIQUE,\"percSulTot\"  DOUBLE NOT NULL,CONSTRAINT \"keyspesa\" FOREIGN KEY (\"idCategorie\") REFERENCES \"cat_spese\" (\"idCategoria\"));";
-		executeUpdate(sql, cp);
-		sql = queryCreateEntrate();
-		executeUpdate(sql, cp);
-		sql = queryCreateUscite();
-		executeUpdate(sql, cp);
-		sql = queryCreateNote();
-		executeUpdate(sql, cp);
-
+		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("cercalezioni.db.sql");
+		String text = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+		executeUpdate(text, ConnectionPool.getSingleton());
 	}
 
-	private String queryCreateEntrate() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"entrate\" ( ");
-		sb.append(" \"idEntrate\"	INTEGER NOT NULL, ");
-		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
-		sb.append(" \"Fisse_o_Var\"	TEXT NOT NULL, ");
-		sb.append(" \"inEuro\"	INTEGER NOT NULL, ");
-		sb.append(" \"data\"	TEXT NOT NULL, ");
-		sb.append(NOME_TEXT_NOT_NULL);
-		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(" \"dataIns\"	TEXT, ");
-		sb.append(" PRIMARY KEY(\"idEntrate\"), ");
-		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
-		sb.append(" ); ");
-		return sb.toString();
-	}
-
-	private String queryCreateUscite() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"single_spesa\" ( ");
-		sb.append(" \"idSpesa\"	INTEGER NOT NULL,  ");
-		sb.append(" \"Data\"	TEXT NOT NULL, ");
-		sb.append(" \"inEuro\"	INTEGER NOT NULL, ");
-		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
-		sb.append(" \"idCategorie\"	INTEGER NOT NULL, ");
-		sb.append(NOME_TEXT_NOT_NULL);
-		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(" \"dataIns\"	TEXT, ");
-		sb.append(" PRIMARY KEY(\"idSpesa\") ");
-		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
-		sb.append(" ); ");
-		return sb.toString();
-	}
-
-	private String queryCreateGruppo() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"gruppi\" ( ");
-		sb.append(" \"idGruppo\"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  ");
-		sb.append(NOME_TEXT_NOT_NULL);
-		sb.append(" \"descrizione\"	TEXT, ");
-		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
-		sb.append(" ); ");
-		return sb.toString();
-	}
-	private String queryCreateNote() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" CREATE TABLE \"note\" ( ");
-		sb.append(" \"idNote\"	INTEGER NOT NULL, ");
-		sb.append(" \"nome\"	TEXT NOT NULL, ");
-		sb.append(" \"descrizione\"	TEXT NOT NULL, ");
-		sb.append(ID_UTENTE_INTEGER_NOT_NULL);
-		sb.append(" \"data\"	TEXT NOT NULL, ");
-		sb.append(" \"dataIns\"	TEXT NOT NULL, ");
-		sb.append(" PRIMARY KEY(\"idNote\"), ");
-		sb.append(FOREIGN_KEY_ID_UTENTE_REFERENCES_UTENTI_ID_UTENTE);
-		sb.append(" ); ");
-		return sb.toString();
-	}
+	
 
 	private void executeUpdate(String sql, final ConnectionPool cp) throws SQLException {
 		cp.executeUpdate(sql);
