@@ -4,5 +4,14 @@
 		<class>com.molinari.cercalezione.domain.File</class>
 		<class>com.molinari.cercalezione.domain.Lezione</class>
 		<class>com.molinari.cercalezione.domain.Tag</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.dialect" value="com.enigmabridge.hibernate.dialect.SQLiteDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:cercalezioni.db"/>
+           <!--  <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value=""/> -->
+        </properties>
 	</persistence-unit>
 </persistence>

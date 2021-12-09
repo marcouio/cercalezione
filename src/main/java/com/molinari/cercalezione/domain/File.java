@@ -16,17 +16,26 @@ public class File implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="\"idFile\"")
+	@Column(name="\"idFile\"", nullable=false)
 	private int idFile;
 
-	@Column(name="\"nome\"")
+	@Column(name="\"nome\"", nullable=false, length=2000000000)
 	private String nome;
 
-	@Column(name="\"path\"")
+	@Column(name="\"path\"", nullable=false, length=2000000000)
 	private String path;
 
 	//bi-directional many-to-many association to Lezione
 	@ManyToMany(mappedBy="files")
+//	@JoinTable(
+//	name="\"LezioneFile\""
+//	, joinColumns={
+//			@JoinColumn(name="\"IdLezione\"", referencedColumnName="\"idLezione\"")
+//		}
+//	, inverseJoinColumns={
+//			@JoinColumn(name="\"idFile\"", referencedColumnName="\"idFile\"")
+//		}
+//	)
 	private List<Lezione> leziones;
 
 	public File() {

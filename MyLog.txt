@@ -1,2 +1,4 @@
-nov 14, 2021 4:38:40 PM com.molinari.utility.log.LoggerOggetto creaLog
+dic 07, 2021 11:00:57 PM com.molinari.utility.log.LoggerOggetto creaLog
 INFO: Start programma!
+dic 07, 2021 11:01:05 PM com.molinari.utility.database.ConnectionPool executeUpdate
+INFO: Query in esecuzione: insert into "Lezione" ("nome", "data", "numero", "anno") values ('Prova Lezione', '07/12/2021', 0, 2021)

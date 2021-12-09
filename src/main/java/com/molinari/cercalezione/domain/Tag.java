@@ -2,6 +2,9 @@ package com.molinari.cercalezione.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+
 import java.util.List;
 
 
@@ -12,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name="\"Tag\"")
 @NamedQuery(name="Tag.findAll", query="SELECT t FROM Tag t")
-public class Tag implements Serializable {
+public class Tag implements Serializable, AbstractOggettoEntita {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="\"descrizione\"")
@@ -24,15 +27,15 @@ public class Tag implements Serializable {
 
 	//bi-directional many-to-many association to Lezione
 	@ManyToMany
-	@JoinTable(
-		name="\"LezioneTag\""
-		, joinColumns={
-				@JoinColumn(name="\"idTag\"", referencedColumnName="\"idTag\"")
-			}
-		, inverseJoinColumns={
-				@JoinColumn(name="\"idLezione\"", referencedColumnName="\"idLezione\"")
-			}
-		)
+//	@JoinTable(
+//		name="\"LezioneTag\""
+//		, joinColumns={
+//				@JoinColumn(name="\"idTag\"", referencedColumnName="\"idTag\"")
+//			}
+//		, inverseJoinColumns={
+//				@JoinColumn(name="\"idLezione\"", referencedColumnName="\"idLezione\"")
+//			}
+//		)
 	private List<Lezione> leziones;
 
 	public Tag() {
@@ -61,5 +64,19 @@ public class Tag implements Serializable {
 	public void setLeziones(List<Lezione> leziones) {
 		this.leziones = leziones;
 	}
+	
+	@Override
+	public String getIdEntita() {
+		return Integer.toString(getIdTag());
+	}
 
+	@Override
+	public void setIdEntita(String idEntita) {
+		setIdTag(Integer.parseInt(idEntita));
+	}
+
+	@Override
+	public String getNome() {
+		return getDescrizione();
+	}
 }
