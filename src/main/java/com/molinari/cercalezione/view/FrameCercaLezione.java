@@ -18,6 +18,7 @@ public class FrameCercaLezione extends PannelloBase {
 		final Menu menuLoc = createMenu();
 		inserisciPan = new PannelloInserisci(this);
 		getInserisciPan().posizionaADestraDi(menuLoc, 0, 10);
+		getInserisciPan().setVisible(false);
 		cercaPan = new PannelloTrova(this);
 		getCercaPan().posizionaSottoA(menuLoc, 0, 10);
 	}

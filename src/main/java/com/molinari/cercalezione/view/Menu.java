@@ -13,34 +13,36 @@ import com.molinari.cercalezione.Controllore;
 public class Menu extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
+	private JCheckBoxMenuItem menuInserisci;
+	private JCheckBoxMenuItem menuTrova;
 
 	public Menu() {
 		init();
 	}
 
 	private void init() {
-		this.setBounds(0, 0, 1000, 20);
+		this.setBounds(0, 0, 1000, 700);
 
 		// crea un menu
 		final JMenu file = new JMenu("Azioni");
 		this.add(file);
 
-		final JCheckBoxMenuItem gestore = new JCheckBoxMenuItem("Inserisci Lezione");
-		gestore.setState(true);
-		gestore.addActionListener(arg0 -> inserisciPan());
-		file.add(gestore);
+		menuInserisci = new JCheckBoxMenuItem("Inserisci Lezione");
+		menuInserisci.setState(false);
+		menuInserisci.addActionListener(arg0 -> inserisciPan());
+		file.add(menuInserisci);
 
-		final JCheckBoxMenuItem player = new JCheckBoxMenuItem("Trova Lezione");
-		player.setState(true);
-		player.addActionListener(arg0 -> trovaPan());
-		file.add(player);
+		menuTrova = new JCheckBoxMenuItem("Trova Lezione");
+		menuTrova.setState(true);
+		menuTrova.addActionListener(arg0 -> trovaPan());
+		file.add(menuTrova);
 		
 		final JMenuItem chiudi = new JMenuItem("Chiudi");
 		chiudi.addActionListener(e -> System.exit(0));
 		file.add(chiudi);
 
 		final JMenu help = new JMenu("Help");
-		add(help);
+		this.add(help);
 
 		final JMenuItem info = new JMenuItem("Info");
 		help.add(info);
@@ -65,20 +67,12 @@ public class Menu extends JMenuBar {
 
 	public void trovaPan() {
 		final FrameCercaLezione vista = Controllore.getGeneralFrame();
-		final JPanel pannello = vista.getCercaPan();
+		final JPanel pannelloCerca = vista.getCercaPan();
 		final JPanel pannelloIns = vista.getInserisciPan();
-		if (pannello.isVisible()) {
-			pannello.setVisible(false);
-			pannelloIns.setVisible(true);
-			
-			setGrandezzaDelPannelloInsert(vista);
-			vista.getCercaPan().setLocation(new Point(0, 20));
+		if (pannelloCerca.isVisible()) {
+			selezionaPannelloIns(vista, pannelloCerca, pannelloIns);
 		} else {
-			pannello.setVisible(true);
-			pannelloIns.setVisible(false);
-			
-			setGrandezzaDelPannelloTrova(vista, pannello);
-			pannello.setLocation(new Point(0, 20));
+			selezionaPannelloCerca(vista, pannelloCerca, pannelloIns);
 		}
 		
 		vista.invalidate();
@@ -87,24 +81,41 @@ public class Menu extends JMenuBar {
 	
 	public void inserisciPan() {
 		final FrameCercaLezione vista = Controllore.getGeneralFrame();
-		final JPanel pannello = vista.getInserisciPan();
+		final JPanel pannelloIns = vista.getInserisciPan();
 		final JPanel pannelloCerca = vista.getCercaPan();
 		// se il pannello è visibile lo nascondo e ridimensiono la vista
 		// prendendo le dimensioni dell'altro pannello
-		if (pannello.isVisible()) {
-			pannello.setVisible(false);
-			pannelloCerca.setVisible(true);
-			setGrandezzaDelPannelloInsert(vista);
-			vista.getInserisciPan().setLocation(new Point(0, 20));
+		if (pannelloIns.isVisible()) {
+			selezionaPannelloCerca(vista, pannelloCerca, pannelloIns);
 		} else {
-			pannello.setVisible(true);
-			pannelloCerca.setVisible(false);
-			setGrandezzaDelPannelloInsert(vista);
-			vista.getInserisciPan().setLocation(new Point(0, 20));
-			
+			selezionaPannelloIns(vista, pannelloCerca, pannelloIns);
 		}
 		vista.invalidate();
 		vista.repaint();
 	}
+
+	private void selezionaPannelloCerca(final FrameCercaLezione vista, final JPanel pannelloCerca,
+			final JPanel pannelloIns) {
+		pannelloCerca.setVisible(true);
+		pannelloIns.setVisible(false);
+		menuInserisci.setState(false);
+		menuTrova.setState(true);
+		
+		setGrandezzaDelPannelloTrova(vista, pannelloCerca);
+		pannelloCerca.setLocation(new Point(0, 20));
+	}
+
+	private void selezionaPannelloIns(final FrameCercaLezione vista, final JPanel pannelloCerca,
+			final JPanel pannelloIns) {
+		pannelloCerca.setVisible(false);
+		pannelloIns.setVisible(true);
+		menuInserisci.setState(true);
+		menuTrova.setState(false);
+		
+		setGrandezzaDelPannelloInsert(vista);
+		pannelloIns.setLocation(new Point(0, 20));
+	}
+	
+	
 
 }

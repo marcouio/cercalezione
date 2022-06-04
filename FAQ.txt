@@ -1,0 +1,5 @@
+EXCEPTIONS N ERRORS
+java.lang.NoSuchMethodError: javax.persistence.NamedQuery.lockMode()Ljavax/persistence/LockModeType; hibernate 5 spring 5
+
+solution :
+remove javax.persistence.api.jar from classpath

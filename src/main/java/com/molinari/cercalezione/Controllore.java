@@ -45,7 +45,11 @@ public class Controllore extends StarterBase {
 
 				@Override
 				protected Boolean doWithResultSet(ResultSet resulSet) throws SQLException {
-					return resulSet.next();
+					boolean next = resulSet.next();
+					if(!next) {
+						getLog().log(Level.INFO, "Il database esiste, non va creato");
+					}
+					return next;
 				}
 			}.execute(sql);
 		} catch (final SQLException e) {
@@ -80,7 +84,7 @@ public class Controllore extends StarterBase {
 	public void start(FrameBase frame) {
 		
 		setConnectionClassName();
-		ControlloreBase.getLog().setLevel(Level.SEVERE);
+		ControlloreBase.getLog().setLevel(Level.INFO);
 		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
