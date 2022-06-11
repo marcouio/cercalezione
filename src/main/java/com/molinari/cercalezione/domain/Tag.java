@@ -13,29 +13,30 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="\"Tag\"")
+@Table(name="Tag")
 @NamedQuery(name="Tag.findAll", query="SELECT t FROM Tag t")
 public class Tag implements Serializable, AbstractOggettoEntita {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="\"descrizione\"")
+	@Column(name="descrizione")
 	private String descrizione;
 
 	@Id
-	@Column(name="\"idTag\"")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idTag")
 	private int idTag;
 
 	//bi-directional many-to-many association to Lezione
 	@ManyToMany
-//	@JoinTable(
-//		name="\"LezioneTag\""
-//		, joinColumns={
-//				@JoinColumn(name="\"idTag\"", referencedColumnName="\"idTag\"")
-//			}
-//		, inverseJoinColumns={
-//				@JoinColumn(name="\"idLezione\"", referencedColumnName="\"idLezione\"")
-//			}
-//		)
+	@JoinTable(
+		name="LezioneTag"
+		, joinColumns={
+				@JoinColumn(name="idTag", referencedColumnName="idTag")
+			}
+		, inverseJoinColumns={
+				@JoinColumn(name="idLezione", referencedColumnName="idLezione")
+			}
+		)
 	private List<Lezione> leziones;
 
 	public Tag() {

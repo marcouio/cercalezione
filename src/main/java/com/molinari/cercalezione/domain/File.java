@@ -10,32 +10,33 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="\"File\"")
+@Table(name="File")
 @NamedQuery(name="File.findAll", query="SELECT f FROM File f")
 public class File implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="\"idFile\"", nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idFile", nullable=false)
 	private int idFile;
 
-	@Column(name="\"nome\"", nullable=false, length=2000000000)
+	@Column(name="nome", nullable=false, length=2000000000)
 	private String nome;
 
-	@Column(name="\"path\"", nullable=false, length=2000000000)
+	@Column(name="path", nullable=false, length=2000000000)
 	private String path;
 
 	//bi-directional many-to-many association to Lezione
-	@ManyToMany(mappedBy="files")
-//	@JoinTable(
-//	name="\"LezioneFile\""
-//	, joinColumns={
-//			@JoinColumn(name="\"IdLezione\"", referencedColumnName="\"idLezione\"")
-//		}
-//	, inverseJoinColumns={
-//			@JoinColumn(name="\"idFile\"", referencedColumnName="\"idFile\"")
-//		}
-//	)
+	@ManyToMany
+	@JoinTable(
+	name="LezioneFile"
+	, joinColumns={
+			@JoinColumn(name="idFile", referencedColumnName="idFile")
+		}
+	, inverseJoinColumns={
+			@JoinColumn(name="idLezione", referencedColumnName="idLezione")
+		}
+	)
 	private List<Lezione> leziones;
 
 	public File() {

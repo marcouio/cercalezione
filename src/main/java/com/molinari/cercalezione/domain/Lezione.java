@@ -13,42 +13,52 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="\"Lezione\"")
+@Table(name="Lezione")
 @NamedQuery(name="Lezione.findAll", query="SELECT l FROM Lezione l")
 public class Lezione implements Serializable, AbstractOggettoEntita {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="\"anno\"")
+	@Column(name="anno")
 	private int anno;
 
-	@Column(name="\"data\"")
+	@Column(name="data")
 	private String data;
 
 	@Id
-	@Column(name="\"idLezione\"")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idLezione")
 	private int idLezione;
 
-	@Column(name="\"nome\"")
+	@Column(name="nome")
 	private String nome;
 
-	@Column(name="\"numero\"")
+	@Column(name="numero")
 	private int numero;
 
 	//bi-directional many-to-many association to File
 	@ManyToMany
+	@JoinTable(
+	name="LezioneFile"
+	, joinColumns={
+			@JoinColumn(name="idLezione", referencedColumnName="idLezione")
+		}
+	, inverseJoinColumns={
+			@JoinColumn(name="idFile", referencedColumnName="idFile")
+		}
+	)
 	private List<File> files;
 
 	//bi-directional many-to-many association to Tag
-	@ManyToMany(mappedBy="leziones")
-//	@JoinTable(
-//			name="\"LezioneTag\""
-//			, joinColumns={
-//					@JoinColumn(name="\"idTag\"", referencedColumnName="\"idTag\"")
-//				}
-//			, inverseJoinColumns={
-//					@JoinColumn(name="\"idLezione\"", referencedColumnName="\"idLezione\"")
-//				}
-//			)
+	@ManyToMany
+	@JoinTable(
+			name="LezioneTag"
+			, joinColumns={
+					@JoinColumn(name="idLezione", referencedColumnName="idLezione")
+				}
+			, inverseJoinColumns={
+					@JoinColumn(name="idTag", referencedColumnName="idTag")
+				}
+			)
 	private List<Tag> tags;
 
 	public Lezione() {
