@@ -3,6 +3,9 @@ package com.molinari.cercalezione.domain;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 import java.util.List;
@@ -27,7 +30,7 @@ public class Tag implements Serializable, AbstractOggettoEntita {
 	private int idTag;
 
 	//bi-directional many-to-many association to Lezione
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 		name="LezioneTag"
 		, joinColumns={

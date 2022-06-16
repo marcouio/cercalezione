@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import com.molinari.cercalezione.domain.File;
 import com.molinari.cercalezione.domain.Lezione;
 import com.molinari.cercalezione.domain.Tag;
-import com.molinari.cercalezione.domain.dao.FileDao;
 import com.molinari.cercalezione.domain.dao.LezioneDao;
 import com.molinari.utility.GenericException;
 import com.molinari.utility.graphic.component.alert.Alert;
@@ -91,24 +90,22 @@ public class PannelloInserisci extends PannelloBase {
 					List<Tag> tags = Arrays.stream(tagsTF.getText().split(","))
 					.map(t ->  {
 						Tag tag = new Tag();
-						tag.setDescrizione(t);
+						tag.setDescrizione(t.trim().toUpperCase());
 						return tag;
 					}).collect(Collectors.toList());
 					lezione.setTags(tags);
 					
-					FileDao fileDao = new FileDao();
 					File file = new File();
 					file.setNome(fileTF.getText());
 					file.setPath(fileTF.getText());
-					Object findFile = fileDao.find(File.class, file);
-					if(findFile == null) {
-						fileDao.saveOrUpdate(file);
-					}
 					lezione.setFiles(Arrays.asList(file));
 					LezioneDao lezioneDao = new LezioneDao(lezione);
 					Object findLezione = lezioneDao.find(Lezione.class, lezione);
 					if(findLezione == null) {
-						lezioneDao.saveOrUpdate(lezione);
+						lezioneDao.save();
+						Alert.info("Lezione inserita", "Lezione inserita");
+					}else {
+						Alert.info("Lezione non inserita perché già presente", "Lezione non inserita");
 					}
 				}catch (Exception ex) {
 					Alert.segnalazioneEccezione(ex, "Errore nel salvataggio della lezione");

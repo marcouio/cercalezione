@@ -8,9 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.molinari.cercalezione.Controllore;
 import com.molinari.cercalezione.domain.Lezione;
 import com.molinari.cercalezione.domain.Tag;
 import com.molinari.cercalezione.domain.dao.LezioneDao;
+import com.molinari.cercalezione.domain.dao.TagDao;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
 import com.molinari.utility.graphic.component.button.ButtonBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.label.LabelTestoPiccolo;
@@ -41,23 +44,22 @@ public class PannelloTrova extends PannelloBase {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Lezione lezione = new Lezione();
-//				lezione.setNome(numeroTF.getText());
-//				int anno = getAnno(dataTF);
-//				lezione.setAnno(anno);
-//				lezione.setData(dataTF.getText());
 
 				List<Tag> tags = Arrays.stream(tagsTF.getText().split(","))
 				.map(t ->  {
 					Tag tag = new Tag();
-					tag.setDescrizione(t);
+					tag.setDescrizione(t.trim().toUpperCase());
 					return tag;
 				}).collect(Collectors.toList());
-				lezione.setTags(tags);
+
+				TagDao tag = new TagDao(tags.get(0));
+				Tag findTags = (Tag) tag.findByProp(Tag.class, "descrizione", tag.getEntita().getDescrizione());
+				List<Lezione> find = findTags.getLeziones();
 				
-				LezioneDao lezioneDao = new LezioneDao(lezione);
-				lezioneDao.find(Lezione.class, lezione);
-				
+				if(find != null && !find.isEmpty()) {
+//					DialogoBase dialog = new DialogoBase(Controllore.getGeneralFrame());
+					System.out.println(find.get(0).getAnno());
+				}
 			}
 		});
 	}

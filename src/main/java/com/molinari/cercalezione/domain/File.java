@@ -2,6 +2,10 @@ package com.molinari.cercalezione.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.util.List;
 
 
@@ -27,7 +31,8 @@ public class File implements Serializable {
 	private String path;
 
 	//bi-directional many-to-many association to Lezione
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinTable(
 	name="LezioneFile"
 	, joinColumns={

@@ -23,7 +23,7 @@
         <property name="format_sql">true</property>
 		
         <!-- Create Database -->
-        <property name="hibernate.hbm2ddl.auto">create</property> 
+        <property name="hibernate.hbm2ddl.auto">validate</property> 
 		
         <!-- List of XML mapping files -->
         <!-- mapping resource="Utente.hbm.xml" /-->

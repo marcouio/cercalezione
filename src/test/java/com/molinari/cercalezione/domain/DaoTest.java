@@ -30,7 +30,6 @@ public class DaoTest {
 		
 		Tag tag2 = new Tag();
 		tag2.setDescrizione("Ciao! sono tag");
-		
 		lezEnt.setTags(Arrays.asList(tag1, tag2));
 		
 		LezioneDao lezDao = new LezioneDao(lezEnt);

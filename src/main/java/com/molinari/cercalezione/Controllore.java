@@ -88,9 +88,10 @@ public class Controllore extends StarterBase {
 		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		frame.setBounds(10, 20, (int)screenSize.getWidth(), (int)screenSize.getHeight());
-		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		frame.setLocation(10, 20);
+//		frame.setBounds(10, 20, (int)screenSize.getWidth(), (int)screenSize.getHeight());
+		frame.setSize(true, 20, 70);
+//		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		genPan = new FrameCercaLezione(frame);
 		view = frame;
 		view.setVisible(true);

@@ -3,6 +3,9 @@ package com.molinari.cercalezione.domain;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 import java.util.List;
