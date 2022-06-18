@@ -54,11 +54,14 @@ public class PannelloTrova extends PannelloBase {
 
 				TagDao tag = new TagDao(tags.get(0));
 				Tag findTags = (Tag) tag.findByProp(Tag.class, "descrizione", tag.getEntita().getDescrizione());
-				List<Lezione> find = findTags.getLeziones();
 				
-				if(find != null && !find.isEmpty()) {
-//					DialogoBase dialog = new DialogoBase(Controllore.getGeneralFrame());
-					System.out.println(find.get(0).getAnno());
+				if(findTags != null) {
+					List<Lezione> find = findTags.getLeziones();
+					
+					if(find != null && !find.isEmpty()) {
+//						DialogoBase dialog = new DialogoBase(Controllore.getGeneralFrame());
+						System.out.println(find.get(0).getAnno());
+					}
 				}
 			}
 		});

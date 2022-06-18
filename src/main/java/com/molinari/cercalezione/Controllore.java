@@ -1,8 +1,5 @@
 package com.molinari.cercalezione;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -13,8 +10,10 @@ import java.util.logging.Logger;
 import com.molinari.cercalezione.view.FrameCercaLezione;
 import com.molinari.utility.commands.AbstractCommand;
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.controller.Starter;
 import com.molinari.utility.controller.StarterBase;
 import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.graphic.PercentageDimension;
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.servicesloader.LoaderLevel;
@@ -87,11 +86,7 @@ public class Controllore extends StarterBase {
 		ControlloreBase.getLog().setLevel(Level.INFO);
 		Database.setDburl(Database.DB_URL_WORKSPACE);
 		verificaPresenzaDb();
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(10, 20);
-//		frame.setBounds(10, 20, (int)screenSize.getWidth(), (int)screenSize.getHeight());
-		frame.setSize(true, 20, 70);
-//		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		genPan = new FrameCercaLezione(frame);
 		view = frame;
 		view.setVisible(true);
@@ -133,6 +128,16 @@ public class Controllore extends StarterBase {
 	@Override
 	public LoaderLevel getLevel() {
 		return LoaderLevel.IMPLEMENTED;
+	}
+
+	@Override
+	public PercentageDimension getPercentageDimension() {
+		return new PercentageDimension(true, 16, 60);
+	}
+
+	@Override
+	public Starter createInstance(Object... args) {
+		return new Controllore();
 	}
 
 }

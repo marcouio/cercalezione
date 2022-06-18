@@ -1,6 +1,10 @@
-giu 16, 2022 9:07:43 AM com.molinari.utility.log.LoggerOggetto creaLog
+giu 18, 2022 8:35:02 AM com.molinari.utility.log.LoggerOggetto creaLog
 INFO: Start programma!
-giu 16, 2022 9:07:43 AM com.molinari.utility.database.ExecuteResultSet execute
+giu 18, 2022 8:35:08 AM com.molinari.utility.database.ExecuteResultSet execute
 INFO: Query in esecuzione: SELECT * FROM Lezione
-giu 16, 2022 9:07:43 AM com.molinari.cercalezione.Controllore$1 doWithResultSet
+giu 18, 2022 8:35:16 AM com.molinari.cercalezione.Controllore$1 doWithResultSet
+INFO: Il database esiste, non va creato
+giu 18, 2022 8:45:45 AM com.molinari.utility.database.ExecuteResultSet execute
+INFO: Query in esecuzione: SELECT * FROM Lezione
+giu 18, 2022 8:45:45 AM com.molinari.cercalezione.Controllore$1 doWithResultSet
 INFO: Il database esiste, non va creato

@@ -35,43 +35,43 @@ public class PannelloInserisci extends PannelloBase {
 	public void makeGUI(Container contenitorePadre) {
 		this.setBackground(Color.cyan);
 		LabelTestoPiccolo nomeLabel = new LabelTestoPiccolo("Nome", this);
-		nomeLabel.setBounds(10, 10, 200, 30);
+		nomeLabel.setLocation(0, 10);
 		
 		TextFieldTesto nameTF = new TextFieldTesto(this);
 		nameTF.posizionaSottoA(nomeLabel, 0, 5);
-		nameTF.setSize(100, 30);
+		nameTF.setSize(true, 100, 6);
 		
 		LabelTestoPiccolo numeroLabel = new LabelTestoPiccolo("Numero", this);
 		numeroLabel.posizionaSottoA(nameTF, 0, 5);
 		
 		TextFieldTesto numeroTF = new TextFieldTesto(this);
 		numeroTF.posizionaSottoA(numeroLabel, 0, 5);
-		numeroTF.setSize(100, 30);
+		numeroTF.setSize(true, 100, 6);
 
 		LabelTestoPiccolo dataLabel = new LabelTestoPiccolo("Data", this);
 		dataLabel.posizionaSottoA(numeroTF, 0, 5);
 		
 		TextFieldData dataTF = new TextFieldData("dd/MM/yyyy", this);
 		dataTF.posizionaSottoA(dataLabel, 0, 5);
-		dataTF.setSize(100, 30);
+		dataTF.setSize(true, 100, 6);
 		
 		LabelTestoPiccolo tagsLabel = new LabelTestoPiccolo("Tags", this);
 		tagsLabel.posizionaSottoA(dataTF, 0, 5);
 		
 		TextFieldTesto tagsTF = new TextFieldTesto(this);
 		tagsTF.posizionaSottoA(tagsLabel, 0, 5);
-		tagsTF.setSize(100, 30);
+		tagsTF.setSize(true, 100, 6);
 		
 		LabelTestoPiccolo fileLabel = new LabelTestoPiccolo("File", this);
 		fileLabel.posizionaSottoA(tagsTF, 0, 5);
 		
 		TextFieldTesto fileTF = new TextFieldTesto(this);
 		fileTF.posizionaSottoA(fileLabel, 0, 5);
-		fileTF.setSize(100, 30);
+		fileTF.setSize(true, 100, 6);
 		
 		ButtonBase button = new ButtonBase("Inserisci", this);
 		button.posizionaSottoA(fileTF, 0, 5);
-		button.setSize(100, 30);
+		button.setSize(true, 100, 6);
 		button.addActionListener(new ActionListener() {
 			
 			@Override
