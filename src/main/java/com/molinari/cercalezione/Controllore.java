@@ -37,20 +37,9 @@ public class Controllore extends StarterBase {
 	}
 
 	private static void verificaPresenzaDb() {
-		final String sql = "SELECT * FROM Lezione";
 
 		try {
-			new ExecuteResultSet<Boolean>() {
-
-				@Override
-				protected Boolean doWithResultSet(ResultSet resulSet) throws SQLException {
-					boolean next = resulSet.next();
-					if(!next) {
-						getLog().log(Level.INFO, "Il database esiste, non va creato");
-					}
-					return next;
-				}
-			}.execute(sql);
+			execResultSet().execute("SELECT * FROM Lezione");
 		} catch (final SQLException e) {
 			getLog().log(Level.SEVERE, "Il database non c'è ancora, è da creare!", e);
 			try {
@@ -63,6 +52,18 @@ public class Controllore extends StarterBase {
 			}
 			getLog().severe(e.getMessage());
 		}
+	}
+
+	private static ExecuteResultSet<Boolean> execResultSet() {
+		return new ExecuteResultSet<Boolean>() {
+
+			@Override
+			protected Boolean doWithResultSet(ResultSet resulSet) throws SQLException {
+				boolean next = resulSet.next();
+				getLog().log(Level.INFO, "Il database esiste, non va creato");
+				return next;
+			}
+		};
 	}
 
 
@@ -104,10 +105,16 @@ public class Controllore extends StarterBase {
 		return this.genPan;
 	}
 	
-	public static FrameCercaLezione getGeneralFrame(){
+	public static FrameCercaLezione getGeneralPanel(){
 		Controllore starter = (Controllore) ControlloreBase.getSingleton().getStarter();
 		return starter.getGeneralFrameInner();
 	}
+	
+	public static FrameBase getGeneralFrame(){
+		Controllore starter = (Controllore) ControlloreBase.getSingleton().getStarter();
+		return starter.getGenView();
+	}
+	
 	
 	public static Object getUtenteLogin(){
 		return ControlloreBase.getSingleton().getUtenteLogin();
@@ -138,6 +145,11 @@ public class Controllore extends StarterBase {
 	@Override
 	public Starter createInstance(Object... args) {
 		return new Controllore();
+	}
+	
+	public static void main(final String[] args) {
+		ControlloreBase.getLog().setLevel(Level.SEVERE);
+		ControlloreBase.getSingleton().myMain(ControlloreBase.getSingleton(), "myApplication");
 	}
 
 }

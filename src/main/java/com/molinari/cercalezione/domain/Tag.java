@@ -21,7 +21,7 @@ import java.util.List;
 public class Tag implements Serializable, AbstractOggettoEntita {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="descrizione")
+	@Column(name="descrizione", unique = true)
 	private String descrizione;
 
 	@Id

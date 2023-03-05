@@ -24,10 +24,10 @@ public class File implements Serializable {
 	@Column(name="idFile", nullable=false)
 	private int idFile;
 
-	@Column(name="nome", nullable=false, length=2000000000)
+	@Column(name="nome", nullable=false, length=2000000000, unique = true)
 	private String nome;
 
-	@Column(name="path", nullable=false, length=2000000000)
+	@Column(name="path", nullable=false, length=2000000000, unique = true)
 	private String path;
 
 	//bi-directional many-to-many association to Lezione

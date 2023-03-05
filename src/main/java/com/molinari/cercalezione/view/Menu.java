@@ -66,7 +66,7 @@ public class Menu extends JMenuBar {
 	}
 
 	public void trovaPan() {
-		final FrameCercaLezione vista = Controllore.getGeneralFrame();
+		final FrameCercaLezione vista = Controllore.getGeneralPanel();
 		final JPanel pannelloCerca = vista.getCercaPan();
 		final JPanel pannelloIns = vista.getInserisciPan();
 		if (pannelloCerca.isVisible()) {
@@ -80,7 +80,7 @@ public class Menu extends JMenuBar {
 	}
 	
 	public void inserisciPan() {
-		final FrameCercaLezione vista = Controllore.getGeneralFrame();
+		final FrameCercaLezione vista = Controllore.getGeneralPanel();
 		final JPanel pannelloIns = vista.getInserisciPan();
 		final JPanel pannelloCerca = vista.getCercaPan();
 		// se il pannello è visibile lo nascondo e ridimensiono la vista

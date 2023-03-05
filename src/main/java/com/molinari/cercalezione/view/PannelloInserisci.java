@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 import com.molinari.cercalezione.domain.File;
 import com.molinari.cercalezione.domain.Lezione;
 import com.molinari.cercalezione.domain.Tag;
+import com.molinari.cercalezione.domain.dao.FileDao;
 import com.molinari.cercalezione.domain.dao.LezioneDao;
+import com.molinari.cercalezione.domain.dao.TagDao;
 import com.molinari.utility.GenericException;
 import com.molinari.utility.graphic.component.alert.Alert;
 import com.molinari.utility.graphic.component.button.ButtonBase;
@@ -90,15 +92,31 @@ public class PannelloInserisci extends PannelloBase {
 					List<Tag> tags = Arrays.stream(tagsTF.getText().split(","))
 					.map(t ->  {
 						Tag tag = new Tag();
-						tag.setDescrizione(t.trim().toUpperCase());
+						String description = t.trim().toUpperCase();
+						tag.setDescrizione(description);
+						Tag tagDB = (Tag) new TagDao(tag).findByProp(Tag.class, "descrizione", description);
+						if(tagDB != null) {
+							tag = tagDB;
+						}
 						return tag;
 					}).collect(Collectors.toList());
 					lezione.setTags(tags);
 					
-					File file = new File();
-					file.setNome(fileTF.getText());
-					file.setPath(fileTF.getText());
-					lezione.setFiles(Arrays.asList(file));
+					
+					List<File> files = Arrays.stream(fileTF.getText().split(","))
+					.map(t ->  {
+						File file = new File();
+						String description = t.trim().toUpperCase();
+						file.setNome(description);
+						file.setPath(description);
+						File tagDB = (File) new FileDao().findByProp(File.class, "nome", description);
+						if(tagDB != null) {
+							file = tagDB;
+						}
+						return file;
+					}).collect(Collectors.toList());
+					
+					lezione.setFiles(files);
 					LezioneDao lezioneDao = new LezioneDao(lezione);
 					Object findLezione = lezioneDao.find(Lezione.class, lezione);
 					if(findLezione == null) {
